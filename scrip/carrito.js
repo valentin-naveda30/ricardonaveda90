@@ -4,12 +4,12 @@ var cartContainer=document.querySelector(".cont-cart")
 var total = document.getElementById("total")
 cartCount.textContent=cart.length
 
-console.log("cart",cart)
+console.log("cart",total)
 function renderCart(){
   cartContainer.innerHTML=""//se borran los eventos y elementos
   var totalCompra = 0
   cart.forEach(function(producto){
-    totalCompra+=producto.price* producto-quantity
+    totalCompra+=producto.price* producto.quantity
     cartContainer.innerHTML +=`
     <div class="cart-item">
     <div class="row">
@@ -22,7 +22,8 @@ function renderCart(){
         <p>Cantidad:
         <button class="btn-quantity" id="btn-restar-quantity-${producto.id}">-</button> 
         ${producto.quantity}
-        <button class="btn-quantity" id="btn-sumar-quantity"-${producto.id}>+</button>
+      }
+        <button class="btn-quantity" id="btn-sumar-quantity-${producto.id}">+</button>
         </p>
       </div>
       <div class="col-md-2">
@@ -67,4 +68,6 @@ function addbtnEvents(){
      renderCart()
   })
 
-renderCart()})}
+})
+}
+renderCart()

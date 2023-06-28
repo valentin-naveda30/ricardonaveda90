@@ -3,7 +3,6 @@ var numTarjeta= document.getElementById("card-number")
 var btnPagar = document.getElementById("btn-pagar")
 var errorNumTarjeta = document.getElementById("error-num-tarjeta")
 
-
 var total =document.getElementById("total")
 total.textContent+= totalCompra.toFixed(1)
 
@@ -24,7 +23,6 @@ btnPagar.addEventListener("click",function(event){
     }
 
 })
-
 numTarjeta.addEventListener("focus",function(){
     errorNumTarjeta.style.display="none"
 })

@@ -29,10 +29,11 @@ if(localStorage.getItem("cart")!== null){
 
      //si existen productos
      cartCount.textContent=state.cart.length
-
-fetch("https://fakestoreapi.com/products/")
+     
+fetch("https://648795c6beba62972790d44d.mockapi.io/api/products/products")
 .then(function(data){
     data.json().then(function(productos){
+      console.log("productos",productos)
       //agregamos la propiedad queatity a todos los productos
       productos.forEach(function(producto){
           producto.quantity=1
@@ -41,6 +42,7 @@ fetch("https://fakestoreapi.com/products/")
 
        //todo nuestro codigo aqui
        state.allProducts=productos
+
        state.man=productos.filter(function(product){
            return product.category==="Hombre"
        })
@@ -67,9 +69,6 @@ fetch("https://fakestoreapi.com/products/")
 
        //FUNCIONES
 
-
-      //FUNCIONES
-
        function renderPagination(products){
         var products= state.productsToRender
 
@@ -79,7 +78,6 @@ fetch("https://fakestoreapi.com/products/")
         //Func
 
          pagination.innerHTML=""
-
             pagination.innerHTML+= ` <li class="page-item"><button class="page-link" id="btn-prev">Anterior</button></li>`
         for(var i=0;i<products.length;i++){
           pagination.innerHTML+=`<li class="page-item"><a class="page-link" href="#">${i +1}</a></li>`
@@ -109,7 +107,7 @@ fetch("https://fakestoreapi.com/products/")
          return allProducts
        }
        function actualizarPagIndice(){
-         var indices=document.querySelectorAll(".page-Link")
+         var indices=document.querySelectorAll(".page-item")
           indices.forEach(function(li){
           if(li.textContent ==state.index +1){
             li.classList.add("active")
@@ -121,7 +119,6 @@ fetch("https://fakestoreapi.com/products/")
 
        //imprime los productos en pantalla
        function renderProducts(){
-
         //limpiando el contenedor
         contenedor.innerHTML=""
        //creando los porductos
@@ -136,12 +133,11 @@ fetch("https://fakestoreapi.com/products/")
         <div class="card" style="width: 18rem;"id="card-producto-${index}">
         <img src="${producto.image}" class="card-img-top" alt="producto">
         <div class="card-body">
-          <h5 class="card-title">${producto.title}</h5>
+          <h5 class="card-title">${producto.name}</h5>
           <h6 class="card-subtitle mb-2 text-body-secondary">$${producto.price}</h6>
           <p class="card-text">${producto.description}
         </p>
-          <button class=" btn-cart ${inCart !==null ? "product-in-cart":""}">
-          ${inCart!==undefined ? "Sacar del Carrito":"Añadir al carrito"}</button>
+          <button class=" btn-cart ${inCart !==undefined? "product-in-cart":""}">${inCart!==undefined ? "Sacar del Carrito":"Añadir al carrito"}</button>
         </div>
       </div>
       `
@@ -157,6 +153,7 @@ fetch("https://fakestoreapi.com/products/")
         })
       
         button.addEventListener("click",function(){
+          console.log("producto",producto)
            if(button.textContent==="Añadir al carrito"){
             state.cart.push(producto)
             cartCount.textContent=state.cart.length;
@@ -168,7 +165,7 @@ fetch("https://fakestoreapi.com/products/")
             })
 
              cartCount.textContent=state.cart.length;
-             button.textContent="Sacar del Carrito"
+             button.textContent="Añadir Al Carrito"
              button.style.backgroundColor="#007bff"
            }
            localStorage.setItem("cart",JSON.stringify(state.cart))
@@ -187,7 +184,6 @@ fetch("https://fakestoreapi.com/products/")
        }
 
 }
-
        function prevPage(products){
           if(state.index > 0){
               state.index--
@@ -195,13 +191,13 @@ fetch("https://fakestoreapi.com/products/")
               renderProducts(products)
           }
 
-
        }
 
        function filterProducts(filter){
        state.index=0
        var sortedPag;
        var products=state.productsToRender.flat()
+       console.log("products",products)
         switch(filter){
           case "mayor-menor":
               products.sort(function(a,b){
@@ -221,7 +217,8 @@ fetch("https://fakestoreapi.com/products/")
                      return-1
                   }
                 })
-              case "Z-A":
+                break;
+            case "Z-A":
                 products.sort(function(a,b){
                   if(a.name > b.name){
                     return -1;
@@ -270,7 +267,7 @@ filter_A_Z.addEventListener("click",function(){
         filterProducts("A-Z")
 
 })
-filter_A_Z.addEventListener("click",function(){
+filter_Z_A.addEventListener("click",function(){
 
         filterProducts("Z-A")
 })
